@@ -1,0 +1,60 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+//for challangec we control which objects randomly spawn and the moving rate of the objects
+public class challengec : MonoBehaviour {
+	public float scollspeed = 5.0f;
+	public GameObject[] chanllenges;
+	public float frequency = 0.5f;
+	float counter=0.0f;
+	public Transform s;
+	bool gameover=false;
+
+	// Use this for initialization
+	void Start () {
+		makerandomchallenge ();
+       // rigi = GetComponent<Rigidbody2D>();
+	}
+
+	// Update is called once per frame
+	void Update () {
+        //stop velocity of challenge objects if the game is over
+		
+		GameObject currentc;
+        //Generate a random challenge after counter runs out
+		if (counter <= 0.0f) {
+			makerandomchallenge ();
+		} else {
+			counter -= Time.deltaTime * frequency;
+		}
+        //for each challenge object: move it or destory it, depending on it's position (die if off screen)
+		for (int i = 0; i < transform.childCount; i++) {
+			currentc = transform.GetChild (i).gameObject;
+			scollchallenge (currentc);
+			if (currentc.transform.position.x <= -30f) {
+				Destroy (currentc);	
+			}
+		}
+	}
+
+
+    //method for moving challenge objects across the screen
+	void scollchallenge(GameObject current){
+        if (!control.instance.gameovertext.active)
+        {
+
+            current.transform.position = current.transform.position - Vector3.right * (scollspeed * Time.deltaTime);
+        }
+    }
+    //this function instantiates the rundom objects
+	void makerandomchallenge(){
+		GameObject newchallenge= Instantiate (chanllenges [Random.Range (0, chanllenges.Length)], s.position, Quaternion.identity)as GameObject;
+		newchallenge.transform.parent = transform;
+		counter = 1.0f;
+	}
+    // Set the game over to true for other screens and game objects.
+	public void mygameover(){
+		gameover = true;
+	}
+
+}
