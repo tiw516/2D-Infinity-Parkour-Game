@@ -1,0 +1,52 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+//for control.cs we use it to control character death and count coins during gameplay
+public class control : MonoBehaviour {
+	public static control instance;
+	public GameObject gameovertext;
+	public bool gameover = false;
+	public float scroll = -1.5f;
+	private int coin = 0;
+	public Text cointext;
+    public Text totalCoinText;
+	scorecontrol scorec;
+    private int tempCoin;
+    public Canvas MenuPanel;
+
+	// Use this for initialization
+	void 	Awake () {
+        
+            totalCoinText.text = ("total coins:" + PlayerPrefs.GetInt("coin"));
+		if (instance == null) {
+			instance = this;
+		} else if (instance != this) {
+			Destroy (gameObject);
+		}
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		if (gameover) {
+            MenuPanel.gameObject.SetActive(true);
+		}
+	}
+    // Incremets the coin here.
+	public void coins(){
+		coin++;
+		cointext.text = "coin:" + coin.ToString();
+	}
+
+    // When Player die set the coin earned to total coins.
+	public void died(){
+		gameovertext.SetActive (true);
+		gameover =true;
+        
+            tempCoin = PlayerPrefs.GetInt("coin");
+            tempCoin += coin;
+            PlayerPrefs.SetInt("coin", tempCoin);
+            totalCoinText.text = ("total coins:" + tempCoin);
+	}
+}
