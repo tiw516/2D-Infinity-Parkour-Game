@@ -1,0 +1,166 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+// This class controlls the player shop on shop screen.
+// Based on coins user can select the different players.
+// There are currently 4 players to chose from each has different powers
+// and different price.
+public class ShopSwapScript : MonoBehaviour
+{
+
+    public GameObject player1;
+    public GameObject player2;
+    public GameObject player3;
+    public GameObject player4;
+    public int a, b, c;
+    public int playerIndex;
+    public int coin;
+    public Text ninja, guy, girl;
+    public Text coins, description;
+    // Use this for initialization
+    // init all the four players on the screen.
+    void Start()
+    {
+        //PlayerPrefs.DeleteAll();
+        //PlayerPrefs.SetInt("coin", 300);
+        if (PlayerPrefs.HasKey("PlayerType"))
+        {
+            if (PlayerPrefs.GetInt("PlayerType") == 1)
+            {
+                description.text = "Default Robot Selected";
+            }
+            else if (PlayerPrefs.GetInt("PlayerType") == 2)
+            {
+                description.text = "Fastest Runner Selected";
+            }
+            else if (PlayerPrefs.GetInt("PlayerType") == 3)
+            {
+                description.text = "Higher Jumper Selected";
+            }
+            else if (PlayerPrefs.GetInt("PlayerType") == 4)
+            {
+                description.text = "Highest Jumper Selected";
+            }
+        }
+        else
+        {
+            description.text = "Default Robot Selected";
+
+        }
+
+        if (PlayerPrefs.GetInt("ninja") == 1)
+        {
+            ninja.text = "Bought";
+        }
+        if (PlayerPrefs.GetInt("guy") == 1)
+        {
+            guy.text = "Bought";
+        }
+        if (PlayerPrefs.GetInt("girl") == 1)
+        {
+            girl.text = "Bought";
+        }
+        Yup();
+    }
+
+    void Update()
+    {
+        coins.text = ("coins: " + PlayerPrefs.GetInt("coin").ToString());
+    }
+
+    // This will change player selection to robot.
+    public void ChangePlayer1()
+    {
+
+        PlayerPrefs.SetInt("PlayerType", playerIndex);
+        description.text = "Default Robot Selected";
+    }
+
+    // This will change player selection to Ninja
+    public void ChangePlayer2()
+    {
+        coin = PlayerPrefs.GetInt("coin");
+        a = PlayerPrefs.GetInt("ninja");
+        if (coin >= 10000 && a == 0)
+        {
+            ninja.text = "Bought";
+            coin -= 10000;
+            PlayerPrefs.SetInt("coin", coin);
+            PlayerPrefs.SetInt("PlayerType", playerIndex);
+            PlayerPrefs.SetInt("ninja", 1);
+            description.text = "Fastest Runner Selected";
+        }
+        else if (a == 1)
+        {
+
+            PlayerPrefs.SetInt("PlayerType", playerIndex);
+            description.text = "Fastest Runner Selected";
+        }
+    }
+    // This will change player selection to a Guy.
+    public void ChangePlayer3()
+    {
+        coin = PlayerPrefs.GetInt("coin");
+        b = PlayerPrefs.GetInt("guy");
+        if (coin >= 700 && b == 0)
+        {
+            guy.text = "Bought";
+            coin -= 700;
+            PlayerPrefs.SetInt("coin", coin);
+            PlayerPrefs.SetInt("PlayerType", playerIndex);
+            PlayerPrefs.SetInt("guy", 1);
+            description.text = "Higher Jumper Selected";
+        }
+        else if (b == 1)
+        {
+
+            PlayerPrefs.SetInt("PlayerType", playerIndex);
+            description.text = "Higher Jumper Selected";
+
+        }
+
+    }
+    // This will change player selection to a Girl.
+    public void ChangePlayer4()
+    {
+        c = PlayerPrefs.GetInt("girl");
+        coin = PlayerPrefs.GetInt("coin");
+        if (coin >= 2000 && c == 0)
+        {
+
+            girl.text = "Bought";
+            coin -= 2000;
+            PlayerPrefs.SetInt("coin", coin);
+            PlayerPrefs.SetInt("PlayerType", playerIndex);
+            PlayerPrefs.SetInt("girl", 1);
+            description.text = "Highest Jumper Selected";
+
+        }
+        else if (c == 1)
+        {
+
+            PlayerPrefs.SetInt("PlayerType", playerIndex);
+            description.text = "Highest Jumper Selected";
+
+        }
+
+    }
+    // This will set the player based on the selected player index.
+    public void Yup()
+    {
+        if (PlayerPrefs.HasKey("PlayerType"))
+        {
+            player1.SetActive(PlayerPrefs.GetInt("PlayerType") == 1);
+            player2.SetActive(PlayerPrefs.GetInt("PlayerType") == 2);
+            player3.SetActive(PlayerPrefs.GetInt("PlayerType") == 3);
+            player4.SetActive(PlayerPrefs.GetInt("PlayerType") == 4);
+        }
+        else
+        {
+            player1.SetActive(true);
+        }
+    }
+
+}
