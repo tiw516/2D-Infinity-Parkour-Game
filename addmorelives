@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class AddLives : MonoBehaviour {
+
+    public Text LiveText;
+    void Start() {
+        LiveText.text = ("Lives:" + PlayerPrefs.GetInt("lives"));
+    }
+    void Update()
+    {
+        LiveText.text = ("Lives:" + PlayerPrefs.GetInt("lives"));
+
+    }
+    public void LiveUp()
+    {
+        if (PlayerPrefs.GetInt("lives") < 3 && PlayerPrefs.GetInt("coin") >=100)
+        {
+
+            PlayerPrefs.SetInt("lives", PlayerPrefs.GetInt("lives") + 1);
+            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") - 100);
+
+        }
+
+    }
+}
